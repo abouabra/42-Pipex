@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_bak.c                                     :+:      :+:    :+:   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 10:38:10 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/26 18:36:00 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/26 19:55:17 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
+
+int	ft_strchr_number(char *s, int c)
+{
+	int i;
+
+	i=0;
+	while (s[i] && s[i] != c)
+		i++;
+	if (s[i] == c)
+		return (i);
+	return (0);
+}
+
 
 static char	**error(char **arr)
 {
@@ -41,7 +55,14 @@ static int	c_count(char const *str, char c)
 		{
 			count++;
 			while (str[i] && str[i] != c)
+			{
+				if(str[i] == '\'')
+				{
+					i++;
+					i += ft_strchr_number((char *)&str[i],'\'');
+				}
 				i++;
+			}
 		}
 	}
 	return (count);
@@ -52,7 +73,7 @@ static char	*get_word(char const *s, char c, int *index)
 	int		i;
 	int		wdlen;
 	char	*str;
-
+	int gg;
 	wdlen = 0;
 	i = 0;
 	while (s[(*index)] == c)
@@ -60,6 +81,14 @@ static char	*get_word(char const *s, char c, int *index)
 	i = *index;
 	while (s[i] && s[i] != c)
 	{
+		if(s[i] == '\'')
+		{
+			i++;
+			wdlen++;
+			gg = ft_strchr_number((char *)&s[i],'\'');
+			wdlen += gg;
+			i += gg;
+		}
 		wdlen++;
 		i++;
 	}
@@ -68,7 +97,21 @@ static char	*get_word(char const *s, char c, int *index)
 		return (0);
 	i = 0;
 	while (s[(*index)] && s[(*index)] != c)
-		str[i++] = s[(*index)++];
+	{
+		if(s[(*index)] == '\'')
+		{
+			//str[i] = s[*index];
+			//i++;
+			(*index)++;
+		 	ft_strlcpy(&str[i],&s[(*index)],gg+1);
+			(*index) += gg;
+			i += gg;
+		}
+		if(s[(*index)] != '\'')
+			str[i] = s[*index];
+		i++;
+		(*index)++;
+	}
 	str[i] = 0;
 	return (str);
 }
@@ -98,3 +141,13 @@ char	**ft_split(char const *s, char c)
 	arr[i] = 0;
 	return (arr);
 }
+
+// int main()
+// {
+// 	char **str;
+// 	int i=0;
+// 	str = ft_split("tr 'Hel       f   d d d           d' '{count++} END {print count}'", ' ');
+// 	while(str[i])	
+// 		printf("|%s|\n",str[i++]);
+// 	return 0;
+// }

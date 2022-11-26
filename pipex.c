@@ -6,18 +6,13 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/26 19:35:17 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/26 22:51:39 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft/libft.h"
 #include <stdio.h>
-
 #include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 char *check_command_path(char *command, char **ev)
 {
@@ -74,12 +69,15 @@ int main(int ac,char **av,char **ev)
 {
     if(ac <= 4)
         return 1;
+    if (ev == NULL)
+        exit(EXIT_FAILURE);
     /*
         RETURN ERRORS:
         ac <= 4             : 1
         fork                : 2
         open                : 3
         pipe                : 4
+        NULL ev              : 5
         command not found   : 127
     */
     char **in_exec_param;
@@ -115,9 +113,9 @@ int main(int ac,char **av,char **ev)
     
     out_exec_param = ft_split(av[3], ' ');
     ////printf("AWK: |%s|\n",out_exec_param[1]);
-    //int i=0;
-    //while(out_exec_param[i])
-    //    //printf("COMMAND: %s\n",out_exec_param[i++]);
+    int i=0;
+    while(out_exec_param[i])
+       printf("COMMAND: %s\n",out_exec_param[i++]);
     ////printf("\n\n");
     ////printf("STR: %s\n",*(out_exec_param +1));
     out_command_path = check_command_path(*out_exec_param, ev);
