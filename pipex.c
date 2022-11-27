@@ -6,12 +6,16 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/27 18:19:04 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/27 19:41:23 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "libft/libft.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <sys/unistd.h>
+#include <unistd.h>
 
 
 char *check_command_path(char *command, char **ev)
@@ -22,9 +26,12 @@ char *check_command_path(char *command, char **ev)
     int i;
     int ret;
 
-    ret = access(command, F_OK & X_OK);
-    if(!ret)
+    //printf("COMAMD: %s\n",command);
+    ret = access(command, F_OK);
+    if(!ret && ft_strrchr(command, '/') && ft_strrchr(command, '.'))
+    {
         return command;
+    }
     i = -1;
     path = NULL;
     while(ev[++i])
@@ -32,6 +39,7 @@ char *check_command_path(char *command, char **ev)
             path = ev[i];
     if(!path)
         path = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin";
+    //printf("PATH: %s\n",path);
     path = path + 5;
     tmp = ft_split(path, ':');
     i = -1;
@@ -48,10 +56,10 @@ char *check_command_path(char *command, char **ev)
         char *str = ft_strjoin(tmp[i], "/");
         str2 = ft_strjoin(str, command);  
             
-        ret = access(str2, F_OK &X_OK);
+        ret = access(str2, F_OK);
         if(!ret)
         {
-            // ////printf("%s\n", str2);
+            //printf("%s\n", str2);
             // while(tmp[i])
             //     free(tmp[i++]);
             // free(tmp);
@@ -83,6 +91,7 @@ int main(int ac,char **av,char **ev)
     in_command_path = check_command_path(*in_exec_param, ev);
     if(!in_command_path)
     {
+            
         char *str;
         char *str2 = ft_strjoin(ft_strdup("pipex: "),*in_exec_param);
         str = ft_strjoin(str2,ft_strdup(": command not found\n"));
@@ -101,14 +110,25 @@ int main(int ac,char **av,char **ev)
     out_command_path = check_command_path(*out_exec_param, ev);
     if(!out_command_path)
     {
+        //printf("HELLO");
         char *str;
         char *str2 = ft_strjoin(ft_strdup("pipex: "),*out_exec_param);
         str = ft_strjoin(str2,ft_strdup(": command not found\n"));
         ft_putstr_fd(str, 2);
+        
         //return 0;
         //perror(str);
         //free(str);
         //return -1;
+        //exit(127);
+    }
+    if(out_command_path && access(out_command_path, X_OK) == -1)
+    {
+        char *str;
+        str = ft_strjoin(ft_strdup("pipex: "),"permission denied: ");
+        str = ft_strjoin(str,*out_exec_param);
+        str = ft_strjoin(str,"\n");
+        ft_putstr_fd(str, 2);
     }
         //perror(*out_exec_param);
     //printf("IN Command PATH: %s\n",in_command_path);
@@ -144,6 +164,9 @@ int main(int ac,char **av,char **ev)
     dup2(fd[0], 0);
     dup2(out_fd, 1);
     close(out_fd);
+    //ft_putstr_fd("HELLO",2);
     execve(out_command_path,out_exec_param,ev);
+    if(out_command_path && access(out_command_path, X_OK) == -1)
+        return 126;
     return 127;
 }
