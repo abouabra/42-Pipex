@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 10:38:10 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/26 21:47:28 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/27 23:04:47 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	ft_strchr_number(char *s, int c)
 
 	i=0;
 	while (s[i] && s[i] != c)
-		i++;
+	{
+		i++;		
+	}
 	if (s[i] == c)
 		return (i);
 	return (0);
@@ -60,11 +62,22 @@ static int	c_count(char const *str, char c)
 				{
 					i++;
 					i += ft_strchr_number((char *)&str[i],'\'');
+					if(str[i-1] == '\\')
+					{
+					 	i++;
+						i += ft_strchr_number((char *)&str[i],'\'');
+					}
 				}
 				if(str[i] == '\"')
 				{
 					i++;
 					i += ft_strchr_number((char *)&str[i],'\"');
+					if(str[i-1] == '\\')
+					{
+					 	i++;
+						i += ft_strchr_number((char *)&str[i],'\"');
+					}
+					//printf("##%s###\n",&str[i]);
 				}
 				i++;
 			}
@@ -93,6 +106,13 @@ static char	*get_word(char const *s, char c, int *index)
 			gg = ft_strchr_number((char *)&s[i],'\"');
 			wdlen += gg;
 			i += gg;
+			if(s[i-1] == '\\')
+			{
+				i++;
+				gg += ft_strchr_number((char *)&s[i],'\"');
+				wdlen += gg;
+				i += gg;
+			}
 		}
 		if(s[i] == '\'')
 		{
@@ -101,6 +121,13 @@ static char	*get_word(char const *s, char c, int *index)
 			gg = ft_strchr_number((char *)&s[i],'\'');
 			wdlen += gg;
 			i += gg;
+			if(s[i-1] == '\\')
+			{
+				i++;
+				gg += ft_strchr_number((char *)&s[i],'\'');
+				wdlen += gg;
+				i += gg;
+			}
 		}
 		wdlen++;
 		i++;
@@ -119,6 +146,12 @@ static char	*get_word(char const *s, char c, int *index)
 		 	ft_strlcpy(&str[i],&s[(*index)],gg+1);
 			(*index) += gg;
 			i += gg;
+			if(s[(*index)] == '\\')
+			{
+				//(*index)++;
+				gg = ft_strchr_number((char *)&str[i],'\"');
+		 		ft_strlcat(&str[i],&s[(*index)],gg+1);
+			}
 		}
 		if(s[(*index)] == '\'')
 		{
@@ -128,6 +161,12 @@ static char	*get_word(char const *s, char c, int *index)
 		 	ft_strlcpy(&str[i],&s[(*index)],gg+1);
 			(*index) += gg;
 			i += gg;
+			if(s[(*index)] == '\\')
+			{
+				//(*index)++;
+				gg = ft_strchr_number((char *)&str[i],'\'');
+		 		ft_strlcat(&str[i],&s[(*index)],gg+1);
+			}
 		}
 		if(s[(*index)] != '\"' && s[(*index)] != '\'')
 			str[i] = s[*index];
@@ -150,7 +189,6 @@ char	**ft_split(char const *s, char c)
 	index = 0;
 	i = 0;
 	c_occurence = c_count(s, c);
-	//printf("LEN: %d\n",c_occurence);
 	arr = malloc(sizeof(char *) * (c_occurence + 1));
 	if (!arr)
 		return (0);
@@ -165,12 +203,12 @@ char	**ft_split(char const *s, char c)
 	return (arr);
 }
 
-// int main()
-// {
-// 	char **str;
-// 	int i=0;
-// 	str = ft_split("tr 'Hel       f   d d d           d' '{count++} END {print count}'", ' ');
-// 	while(str[i])	
-// 		printf("|%s|\n",str[i++]);
-// 	return 0;
-// }
+int main()
+{
+	char **str;
+	int i=0;
+	str = ft_split("tr './script\\\"quote.sh' ", ' ');
+	while(str[i])	
+		printf("|%s|\n",str[i++]);
+	return 0;
+}

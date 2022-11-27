@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/27 19:41:23 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/27 23:04:05 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *check_command_path(char *command, char **ev)
     int i;
     int ret;
 
-    //printf("COMAMD: %s\n",command);
+    printf("COMAMD: %s\n",command);
     ret = access(command, F_OK);
     if(!ret && ft_strrchr(command, '/') && ft_strrchr(command, '.'))
     {
@@ -85,8 +85,8 @@ int main(int ac,char **av,char **ev)
     int in_fd;
     int out_fd;
 
-    //printf("IN Command: %s\n",av[2]);
-    //printf("OUT Command: %s\n",av[3]);
+    printf("IN Command: %s\n",av[2]);
+    printf("OUT Command: %s\n",av[3]);
     in_exec_param = ft_split(av[2], ' ');
     in_command_path = check_command_path(*in_exec_param, ev);
     if(!in_command_path)
@@ -131,9 +131,9 @@ int main(int ac,char **av,char **ev)
         ft_putstr_fd(str, 2);
     }
         //perror(*out_exec_param);
-    //printf("IN Command PATH: %s\n",in_command_path);
-    //printf("OUT Command PATH: %s\n",out_command_path);
-    ////printf("\n");
+    printf("IN Command PATH: %s\n",in_command_path);
+    printf("OUT Command PATH: %s\n",out_command_path);
+    //printf("\n");
 
     int fd[2];
     if(pipe(fd) == -1)

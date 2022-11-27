@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_bak.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 10:38:10 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/26 19:55:17 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/27 19:46:16 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 int	ft_strchr_number(char *s, int c)
 {
@@ -61,6 +60,11 @@ static int	c_count(char const *str, char c)
 					i++;
 					i += ft_strchr_number((char *)&str[i],'\'');
 				}
+				if(str[i] == '\"')
+				{
+					i++;
+					i += ft_strchr_number((char *)&str[i],'\"');
+				}
 				i++;
 			}
 		}
@@ -81,6 +85,14 @@ static char	*get_word(char const *s, char c, int *index)
 	i = *index;
 	while (s[i] && s[i] != c)
 	{
+		if(s[i] == '\"')
+		{
+			i++;
+			wdlen++;
+			gg = ft_strchr_number((char *)&s[i],'\"');
+			wdlen += gg;
+			i += gg;
+		}
 		if(s[i] == '\'')
 		{
 			i++;
@@ -98,16 +110,21 @@ static char	*get_word(char const *s, char c, int *index)
 	i = 0;
 	while (s[(*index)] && s[(*index)] != c)
 	{
-		if(s[(*index)] == '\'')
+		if(s[(*index)] == '\"')
 		{
-			//str[i] = s[*index];
-			//i++;
 			(*index)++;
 		 	ft_strlcpy(&str[i],&s[(*index)],gg+1);
 			(*index) += gg;
 			i += gg;
 		}
-		if(s[(*index)] != '\'')
+		if(s[(*index)] == '\'')
+		{
+			(*index)++;
+		 	ft_strlcpy(&str[i],&s[(*index)],gg+1);
+			(*index) += gg;
+			i += gg;
+		}
+		if(s[(*index)] != '\"' && s[(*index)] != '\'')
 			str[i] = s[*index];
 		i++;
 		(*index)++;
