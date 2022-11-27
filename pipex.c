@@ -6,13 +6,17 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/26 22:51:39 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/27 16:41:56 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+# define DEFAULT_PATH                   "PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 char *check_command_path(char *command, char **ev)
 {
@@ -24,10 +28,15 @@ char *check_command_path(char *command, char **ev)
     int ret;
     
     
+    // if(!ev[0])
+    //      return NULL;
     i = -1;
+    path = NULL;
     while(ev[++i])
         if(!ft_strncmp(ev[i], "PATH=", 5))
             path = ev[i];
+    if(!path)
+        return NULL;
     path = path + 5;
     tmp = ft_split(path, ':');
     i = -1;
@@ -43,17 +52,17 @@ char *check_command_path(char *command, char **ev)
         }
         char *str = ft_strjoin(tmp[i], "/");
         str2 = ft_strjoin(str, command);
-        ////printf("---%s-%s--\n",str2,stt);
+        //////printf("---%s-%s--\n",str2,stt);
         // if(!ft_strncmp(stt, command, ft_strlen(command)))
         // {
-        //     ////printf("---%s---\n",command);
+        //     //////printf("---%s---\n",command);
         //     return command;
         // }   
             
         ret = access(str2, F_OK);
         if(!ret)
         {
-            // //printf("%s\n", str2);
+            // ////printf("%s\n", str2);
             // while(tmp[i])
             //     free(tmp[i++]);
             // free(tmp);
@@ -69,8 +78,6 @@ int main(int ac,char **av,char **ev)
 {
     if(ac <= 4)
         return 1;
-    if (ev == NULL)
-        exit(EXIT_FAILURE);
     /*
         RETURN ERRORS:
         ac <= 4             : 1
@@ -90,40 +97,43 @@ int main(int ac,char **av,char **ev)
     int out_fd;
 
 
-
-    
- 
+    in_fd = open(av[1],O_RDONLY | O_CREAT , 0644);
+    out_fd = open(av[4],O_WRONLY | O_TRUNC | O_CREAT , 0644);
+    // if (!ev[0])
+    //     return 0;
     //printf("IN Command: %s\n",av[2]);
     //printf("OUT Command: %s\n",av[3]);
     in_exec_param = ft_split(av[2], ' ');
-
     in_command_path = check_command_path(*in_exec_param, ev);
     if(!in_command_path)
     {
         char *str;
-        str = ft_strjoin(*in_exec_param, ft_strdup(": command not found\n"));
-        write(2, str, ft_strlen(str));
+        char *str2 = ft_strjoin(ft_strdup("pipex: "),*in_exec_param);
+        str = ft_strjoin(str2,ft_strdup(": command not found\n"));
+        ft_putstr_fd(str, 2);
         //perror(str);
         //free(str);
         //return -1;
     }
         
         //perror(*in_exec_param);
-    ////printf("\n");
+    //printf("\n");
     
     out_exec_param = ft_split(av[3], ' ');
-    ////printf("AWK: |%s|\n",out_exec_param[1]);
-    int i=0;
-    while(out_exec_param[i])
-       printf("COMMAND: %s\n",out_exec_param[i++]);
-    ////printf("\n\n");
-    ////printf("STR: %s\n",*(out_exec_param +1));
+    //////printf("AWK: |%s|\n",out_exec_param[1]);
+    // int i=0;
+    // while(out_exec_param[i])
+    //    //printf("COMMAND: %s\n",out_exec_param[i++]);
+    //////printf("\n\n");
+    //////printf("STR: %s\n",*(out_exec_param +1));
     out_command_path = check_command_path(*out_exec_param, ev);
     if(!out_command_path)
     {
         char *str;
-        str = ft_strjoin(*out_exec_param, ft_strdup(": command not found\n"));
-        write(2, str, ft_strlen(str));
+        char *str2 = ft_strjoin(ft_strdup("pipex: "),*out_exec_param);
+        str = ft_strjoin(str2,ft_strdup(": command not found\n"));
+        ft_putstr_fd(str, 2);
+        //return 0;
         //perror(str);
         //free(str);
         //return -1;
@@ -131,7 +141,7 @@ int main(int ac,char **av,char **ev)
         //perror(*out_exec_param);
     //printf("IN Command PATH: %s\n",in_command_path);
     //printf("OUT Command PATH: %s\n",out_command_path);
-    //printf("\n");
+    ////printf("\n");
 
     int fd[2];
     if(pipe(fd) == -1)
@@ -151,7 +161,7 @@ int main(int ac,char **av,char **ev)
         dup2(fd[1], 1);
         close(in_fd);
         execve(in_command_path,in_exec_param,ev);
-        exit (127);
+        exit(127);
     }
     //wait(&status);
     
