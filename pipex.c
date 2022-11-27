@@ -6,37 +6,32 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/27 16:41:56 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:19:04 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft/libft.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-# define DEFAULT_PATH                   "PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 char *check_command_path(char *command, char **ev)
 {
     char *path;
     char **tmp;
-    //char *str;
     char *str2;
     int i;
     int ret;
-    
-    
-    // if(!ev[0])
-    //      return NULL;
+
+    ret = access(command, F_OK & X_OK);
+    if(!ret)
+        return command;
     i = -1;
     path = NULL;
     while(ev[++i])
         if(!ft_strncmp(ev[i], "PATH=", 5))
             path = ev[i];
     if(!path)
-        return NULL;
+        path = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin";
     path = path + 5;
     tmp = ft_split(path, ':');
     i = -1;
@@ -51,15 +46,9 @@ char *check_command_path(char *command, char **ev)
             command = stt;
         }
         char *str = ft_strjoin(tmp[i], "/");
-        str2 = ft_strjoin(str, command);
-        //////printf("---%s-%s--\n",str2,stt);
-        // if(!ft_strncmp(stt, command, ft_strlen(command)))
-        // {
-        //     //////printf("---%s---\n",command);
-        //     return command;
-        // }   
+        str2 = ft_strjoin(str, command);  
             
-        ret = access(str2, F_OK);
+        ret = access(str2, F_OK &X_OK);
         if(!ret)
         {
             // ////printf("%s\n", str2);
@@ -78,15 +67,7 @@ int main(int ac,char **av,char **ev)
 {
     if(ac <= 4)
         return 1;
-    /*
-        RETURN ERRORS:
-        ac <= 4             : 1
-        fork                : 2
-        open                : 3
-        pipe                : 4
-        NULL ev              : 5
-        command not found   : 127
-    */
+    
     char **in_exec_param;
     char *in_command_path;
     
@@ -96,11 +77,6 @@ int main(int ac,char **av,char **ev)
     int in_fd;
     int out_fd;
 
-
-    in_fd = open(av[1],O_RDONLY | O_CREAT , 0644);
-    out_fd = open(av[4],O_WRONLY | O_TRUNC | O_CREAT , 0644);
-    // if (!ev[0])
-    //     return 0;
     //printf("IN Command: %s\n",av[2]);
     //printf("OUT Command: %s\n",av[3]);
     in_exec_param = ft_split(av[2], ' ');
@@ -111,9 +87,6 @@ int main(int ac,char **av,char **ev)
         char *str2 = ft_strjoin(ft_strdup("pipex: "),*in_exec_param);
         str = ft_strjoin(str2,ft_strdup(": command not found\n"));
         ft_putstr_fd(str, 2);
-        //perror(str);
-        //free(str);
-        //return -1;
     }
         
         //perror(*in_exec_param);
@@ -125,7 +98,6 @@ int main(int ac,char **av,char **ev)
     // while(out_exec_param[i])
     //    //printf("COMMAND: %s\n",out_exec_param[i++]);
     //////printf("\n\n");
-    //////printf("STR: %s\n",*(out_exec_param +1));
     out_command_path = check_command_path(*out_exec_param, ev);
     if(!out_command_path)
     {
@@ -145,18 +117,18 @@ int main(int ac,char **av,char **ev)
 
     int fd[2];
     if(pipe(fd) == -1)
-        return 4;
+        return 1;
     
     //int status;
     int id = fork();
     if(id == -1)
-        return 2;
+        return 1;
     if(id == 0)
     {
         close(fd[0]);
         in_fd = open(av[1],O_RDONLY | O_CREAT , 0644);
         if(in_fd == -1)
-            return 3;
+            return 1;
         dup2(in_fd, 0);
         dup2(fd[1], 1);
         close(in_fd);
@@ -168,7 +140,7 @@ int main(int ac,char **av,char **ev)
     close(fd[1]);
     out_fd = open(av[4],O_WRONLY | O_TRUNC | O_CREAT , 0644);
     if(out_fd == -1)
-        return (3);
+        return (1);
     dup2(fd[0], 0);
     dup2(out_fd, 1);
     close(out_fd);
