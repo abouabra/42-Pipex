@@ -24,6 +24,8 @@ $(NAME): $(OBJS)
 	@printf "hana kan compili f$(GREEN) $< $(RESET) \n"
 	@$(CC) -Wall -Wextra -Werror -c $<
 
+#bonus: fclean all
+
 clean:
 	@make -C libft clean
 	@rm -rf *.o $(LIBFT_OBJS)

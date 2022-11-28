@@ -6,16 +6,13 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/27 23:04:05 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:57:14 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include "libft/libft.h"
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/unistd.h>
-#include <unistd.h>
+
 
 
 char *check_command_path(char *command, char **ev)
@@ -26,7 +23,7 @@ char *check_command_path(char *command, char **ev)
     int i;
     int ret;
 
-    printf("COMAMD: %s\n",command);
+    // // // printf("COMAMD: %s\n",command);
     ret = access(command, F_OK);
     if(!ret && ft_strrchr(command, '/') && ft_strrchr(command, '.'))
     {
@@ -39,7 +36,7 @@ char *check_command_path(char *command, char **ev)
             path = ev[i];
     if(!path)
         path = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin";
-    //printf("PATH: %s\n",path);
+    // // //printf("PATH: %s\n",path);
     path = path + 5;
     tmp = ft_split(path, ':');
     i = -1;
@@ -59,7 +56,7 @@ char *check_command_path(char *command, char **ev)
         ret = access(str2, F_OK);
         if(!ret)
         {
-            //printf("%s\n", str2);
+            // // //printf("%s\n", str2);
             // while(tmp[i])
             //     free(tmp[i++]);
             // free(tmp);
@@ -84,10 +81,10 @@ int main(int ac,char **av,char **ev)
     
     int in_fd;
     int out_fd;
-
-    printf("IN Command: %s\n",av[2]);
-    printf("OUT Command: %s\n",av[3]);
+    // printf("IN Command: %s\n",av[2]);
+    // printf("OUT Command: %s\n",av[3]);
     in_exec_param = ft_split(av[2], ' ');
+    // printf("PARAM: |%s|\n",in_exec_param[0]);
     in_command_path = check_command_path(*in_exec_param, ev);
     if(!in_command_path)
     {
@@ -99,18 +96,19 @@ int main(int ac,char **av,char **ev)
     }
         
         //perror(*in_exec_param);
-    //printf("\n");
+    // // //printf("\n");
     
     out_exec_param = ft_split(av[3], ' ');
-    //////printf("AWK: |%s|\n",out_exec_param[1]);
+    // printf("PARAM: |%s|\n",out_exec_param[1]);
+    // // //////printf("AWK: |%s|\n",out_exec_param[1]);
     // int i=0;
     // while(out_exec_param[i])
-    //    //printf("COMMAND: %s\n",out_exec_param[i++]);
-    //////printf("\n\n");
+    // // //    //printf("COMMAND: %s\n",out_exec_param[i++]);
+    // // //////printf("\n\n");
     out_command_path = check_command_path(*out_exec_param, ev);
     if(!out_command_path)
     {
-        //printf("HELLO");
+        // // //printf("HELLO");
         char *str;
         char *str2 = ft_strjoin(ft_strdup("pipex: "),*out_exec_param);
         str = ft_strjoin(str2,ft_strdup(": command not found\n"));
@@ -131,9 +129,9 @@ int main(int ac,char **av,char **ev)
         ft_putstr_fd(str, 2);
     }
         //perror(*out_exec_param);
-    printf("IN Command PATH: %s\n",in_command_path);
-    printf("OUT Command PATH: %s\n",out_command_path);
-    //printf("\n");
+    // printf("IN Command PATH: %s\n",in_command_path);
+    // printf("OUT Command PATH: %s\n",out_command_path);
+    // // //printf("\n");
 
     int fd[2];
     if(pipe(fd) == -1)
@@ -153,6 +151,7 @@ int main(int ac,char **av,char **ev)
         dup2(fd[1], 1);
         close(in_fd);
         execve(in_command_path,in_exec_param,ev);
+        //ft_putstr_fd("HERE", 2);
         exit(127);
     }
     //wait(&status);
