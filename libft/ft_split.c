@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 10:38:10 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/28 22:38:46 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/01 13:16:10 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,15 @@ char	**ft_split(char const *s, char c)
 
 	if (s == NULL)
 		return (0);
+	if(!ft_strncmp(s, "./", 2))
+	{
+		arr = malloc(sizeof(char *)*2);
+		if(!arr)
+			return 0;
+		arr[0] = ft_strdup(s);
+		arr[1] = NULL;
+		return arr;
+	}
 	index = 0;
 	i = 0;
 	c_occurence = c_count(s, c);
@@ -251,7 +260,7 @@ char	**ft_split(char const *s, char c)
 // 	//str = ft_split("sed \"s/And/But/\"", ' ');
 	
 // 	//str = ft_split("./\"script space.sh\"", ' ');
-// 	//str = ft_split("./'script space.sh'", ' ');
+// 	str = ft_split("./script space.sh", ' ');
 // 	//str = ft_split("awk '\"{count++} END {print count}\"'", ' ');
 // 	while(str[i])	
 // 		printf("|%s|\n",str[i++]);
