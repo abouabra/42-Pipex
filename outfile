@@ -1,1 +1,7 @@
-       5
+2657642       48 -rwxr-xr-x    1 abouabra         candidates          22164 Dec  4 16:26 ./pipex$
+2567984       16 -rw-r--r--    1 abouabra         candidates           5325 Dec  3 18:03 ./pipex copy.c$
+2566902       16 -rw-r--r--    1 abouabra         candidates           4810 Dec  3 18:22 ./pipex hard coded.c$
+2531629       16 -rw-r--r--    1 abouabra         candidates           4827 Dec  4 16:26 ./pipex.c$
+2497421        8 -rw-r--r--    1 abouabra         candidates           1116 Dec  4 13:36 ./pipex.h$
+2657641        8 -rw-r--r--    1 abouabra         candidates           4060 Dec  4 16:26 ./pipex.o$
+2502856       16 -rw-r--r--    1 abouabra         candidates           4957 Dec  3 15:38 ./pipex_bak.c$

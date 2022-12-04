@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex hard coded.c                                 :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/12/03 18:22:05 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/03 18:03:26 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "libft/libft.h"
 #include <stdio.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 
 
@@ -154,28 +157,51 @@ int main(int ac,char **av,char **ev)
         execve(in_command_path,in_exec_param,ev);
         exit(127);
     }
-
     close(fd[0]);
     close(fd[1]);
 
+    
+    int fd3[2];
+    if(pipe(fd3) == -1)
+        return 1;
+    int id3 = fork();
+    if(id3 == -1)
+        return 1;
+    if(id3 == 0)
+    {
+        close(fd2[1]);
+        close(fd3[0]);
+        
+        dup2(fd2[0], 0);
+        dup2(fd3[1], 1);
+
+        in_exec_param = ft_split(av[4], ' ');
+        in_command_path = check_command_path(*in_exec_param, ev);
+
+
+        execve(in_command_path,in_exec_param,ev);
+        exit(127);
+    }
+    
+    close(fd2[0]);
+    close(fd2[1]);
+    
     id = fork();
     if(id == 0)
     {
-        close(fd2[1]);
-        out_fd = open(av[5],O_WRONLY | O_TRUNC | O_CREAT , 0644);
+        close(fd3[1]);
+        out_fd = open(av[6],O_WRONLY | O_TRUNC | O_CREAT , 0644);
         if(out_fd == -1)
             return (1);
 
-        dup2(fd2[0], 0);
+        dup2(fd3[0], 0);
         dup2(out_fd, 1);
-        in_exec_param = ft_split(av[4], ' ');
+        in_exec_param = ft_split(av[5], ' ');
         in_command_path = check_command_path(*in_exec_param, ev);
 
         close(out_fd);
         execve(in_command_path,in_exec_param,ev);
     }
-    close(fd2[0]);
-    close(fd2[1]);
     
     if(in_command_path && access(in_command_path, X_OK) == -1)
         return 126;
