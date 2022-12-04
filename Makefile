@@ -18,7 +18,7 @@ $(NAME): $(OBJS)
 	@$(CC) -Wall -Wextra -Werror $(INCLUDE) $^ libft/libft.a -o $@
 	@printf "$(RED)--------PIPEX DONE--------$(RESET)\n"
 
-#bonus: fclean all
+bonus: fclean all
 
 %.o : %.c
 	@printf "hana kan compili f$(GREEN) $< $(RESET) \n"

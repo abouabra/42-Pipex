@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 10:33:49 by abouabra          #+#    #+#             */
-/*   Updated: 2022/11/24 15:04:37 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/04 16:46:46 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 	char	*str;
-	if(!s1)
-	{
-		s1 = malloc(1);
-		if(!s1)
-			return 0;
-		s1[0] = 0;
-	}
-	if (s2 == NULL)
+
+	if (!s1 || !s2)
 		return (0);
 	str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!str)
@@ -39,6 +33,5 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		str[i++] = s2[j++];
 	str[i] = 0;
-	free((char *)s1);
 	return (str);
 }

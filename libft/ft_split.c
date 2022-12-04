@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 10:38:10 by abouabra          #+#    #+#             */
-/*   Updated: 2022/12/04 11:29:30 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/04 16:56:49 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static char	**error(char **arr)
 	return (0);
 }
 
-static int	c_count(char const *str, char c)
+static int	c_count(char *str, char c)
 {
 	int	count;
 	int	i;
@@ -87,7 +87,7 @@ static int	c_count(char const *str, char c)
 	return (count);
 }
 
-static char	*get_word(char const *s, char c, int *index)
+static char	*get_word(char *s, char c, int *index)
 {
 	int		i;
 	int		wdlen;
@@ -211,7 +211,7 @@ static char	*get_word(char const *s, char c, int *index)
 	return (str);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char  *s, char c)
 {
 	int		c_occurence;
 	int		i;
@@ -274,7 +274,7 @@ char	**ft_split(char const *s, char c)
 // 	return (0);
 // }
 
-// static int	c_count(char const *str, char c)
+// static int	c_count(char  *str, char c)
 // {
 // 	int	count;
 // 	int	i;
@@ -307,7 +307,7 @@ char	**ft_split(char const *s, char c)
 // 	return (count);
 // }
 
-// static char	*get_word(char const *s, char c, int *index)
+// static char	*get_word(char  *s, char c, int *index)
 // {
 // 	int		i;
 // 	int		wdlen;
@@ -368,7 +368,7 @@ char	**ft_split(char const *s, char c)
 // 	return (str);
 // }
 
-// char	**ft_split(char const *s, char c)
+// char	**ft_split(char  *s, char c)
 // {
 // 	int		c_occurence;
 // 	int		i;
