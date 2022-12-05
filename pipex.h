@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:28 by abouabra          #+#    #+#             */
-/*   Updated: 2022/12/04 13:36:06 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/04 18:35:05 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ typedef struct s_vars{
     int **fd;
     char **av;
     char **ev;
-    int in_fd;
+    int     is_herdoc;
+    char    *herdoc_limiter;
 } t_vars;
 
 #endif
