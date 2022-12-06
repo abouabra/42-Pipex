@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   pipex copy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/12/05 20:44:30 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/05 20:48:54 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,12 +198,11 @@ int main(int ac,char **av,char **ev)
             vars->herdoc_limiter = av[2];
     }
 
-    set_parameters(vars);
-
-    vars->fd = alloc_fd(vars->alloc_fd_size);
     vars->av = av;
     vars->ac = ac;
     vars->ev = ev;
+    set_parameters(vars);
+    vars->fd = alloc_fd(vars->alloc_fd_size);
     
     if(pipe(vars->fd[0]) == -1)
         return 1;

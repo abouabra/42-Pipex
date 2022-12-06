@@ -6,7 +6,7 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:28 by abouabra          #+#    #+#             */
-/*   Updated: 2022/12/05 20:42:03 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/06 12:35:43 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@
 #include <fcntl.h>
 
 typedef struct s_vars{
-    char **exec_param;
-    char *command_path;
-    int **fd;
+    char    **exec_param;
+    char    *command_path;
+    
+    int     **fd;
+    
     int     ac;
-    char **av;
-    char **ev;
+    char    **av;
+    char    **ev;
+    
     int     is_herdoc;
     char    *herdoc_limiter;
 
@@ -35,6 +38,8 @@ typedef struct s_vars{
     int     out_fd;
     
     int     alloc_fd_size;
+    
+    int     i;
 } t_vars;
 
 #endif
