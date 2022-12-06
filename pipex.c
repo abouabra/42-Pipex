@@ -6,11 +6,13 @@
 /*   By: abouabra < abouabra@student.1337.ma >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 21:04:18 by abouabra          #+#    #+#             */
-/*   Updated: 2022/12/06 13:15:53 by abouabra         ###   ########.fr       */
+/*   Updated: 2022/12/06 22:51:54 by abouabra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+#include "libft/ft_dprintf.h"
+#include <stdlib.h>
 #include <unistd.h>
 
 char **get_path(char **ev)
@@ -26,6 +28,15 @@ char **get_path(char **ev)
     if(!path)
         path = "/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin";
     return ft_split(path, ':');
+}
+void    free_path(char **path)
+{
+    int i;
+    
+    i=-1;
+    while (path[++i])
+        free(path[i]);
+    free(path);
 }
 
 char *check_command_path(char *command, char **ev)
@@ -51,7 +62,12 @@ char *check_command_path(char *command, char **ev)
         str2 = ft_strjoin(str, command);  
         ret = access(str2, F_OK);
         if(!ret)
+        {
+            free(str);
+            free_path(path);
             return str2;
+        }
+        free(str);
         free(str2);
     }
     return NULL;
@@ -275,6 +291,7 @@ int main(int ac,char **av,char **ev)
     set_parameters(vars,ac,av,ev);
     first_command(vars);
     n_commands(vars);
+    //while(1);
     return_val = last_command(vars, vars->i);
     return return_val;
 }
