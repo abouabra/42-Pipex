@@ -28,7 +28,7 @@ bonus: fclean all
 
 clean:
 	@make -C libft clean
-	@rm -rf *.o $(LIBFT_OBJS)
+	@rm -rf *.o
 
 fclean:
 	@make -C libft fclean
