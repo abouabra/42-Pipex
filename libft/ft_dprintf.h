@@ -16,13 +16,13 @@
 # include <stdarg.h>
 # include <unistd.h>
 
-int		ft_dprintf(int fd,const char *str, ...);
+int		ft_dprintf(int fd, const char *str, ...);
 
-void	ft_dputchar(char c, int *tracker,int fd);
-void	ft_dputnbr(int n, int *tracker,int fd);
-void	ft_dputstr(char *s, int *tracker,int fd);
-void	ft_dput_unsigned_nbr(unsigned int nb, int *tracker,int fd);
-void	ft_dput_hex_nbr(unsigned int nb, char x, int *tracker,int fd);
-void	ft_dput_adress(void *ptr, int *tracker,int fd);
+void	ft_dputchar(char c, int *tracker, int fd);
+void	ft_dputnbr(int n, int *tracker, int fd);
+void	ft_dputstr(char *s, int *tracker, int fd);
+void	ft_dput_unsigned_nbr(unsigned int nb, int *tracker, int fd);
+void	ft_dput_hex_nbr(unsigned int nb, char x, int *tracker, int fd);
+void	ft_dput_adress(void *ptr, int *tracker, int fd);
 
 #endif

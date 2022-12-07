@@ -12,30 +12,30 @@
 
 #include "ft_dprintf.h"
 
-void	adress_helper(unsigned long long nb, int *tracker,int fd)
+void	adress_helper(unsigned long long nb, int *tracker, int fd)
 {
 	char	*base;
 
 	base = "0123456789abcdef";
 	if (nb >= 16)
 	{
-		adress_helper(nb / 16, tracker,fd);
-		adress_helper(nb % 16, tracker,fd);
+		adress_helper(nb / 16, tracker, fd);
+		adress_helper(nb % 16, tracker, fd);
 	}
 	else
-		ft_dputchar(base[nb % 16], tracker,fd);
+		ft_dputchar(base[nb % 16], tracker, fd);
 }
 
-void	ft_dput_adress(void *ptr, int *tracker,int fd)
+void	ft_dput_adress(void *ptr, int *tracker, int fd)
 {
 	unsigned long long	nb;
 
 	nb = (unsigned long long)ptr;
-	ft_dputstr("0x", tracker,fd);
-	adress_helper(nb, tracker,fd);
+	ft_dputstr("0x", tracker, fd);
+	adress_helper(nb, tracker, fd);
 }
 
-void	print_specifiers(va_list args, char str, int *tracker,int fd)
+void	print_specifiers(va_list args, char str, int *tracker, int fd)
 {
 	if (str == 'c')
 		ft_dputchar(va_arg(args, int), tracker, fd);
@@ -55,7 +55,7 @@ void	print_specifiers(va_list args, char str, int *tracker,int fd)
 		ft_dput_adress(va_arg(args, void *), tracker, fd);
 }
 
-int	ft_dprintf(int fd ,const char *str, ...)
+int	ft_dprintf(int fd, const char *str, ...)
 {
 	int		tracker;
 	va_list	args;
@@ -70,7 +70,7 @@ int	ft_dprintf(int fd ,const char *str, ...)
 			print_specifiers(args, *str, &tracker, fd);
 		}
 		else
-			ft_dputchar(*str, &tracker,fd);
+			ft_dputchar(*str, &tracker, fd);
 		str++;
 	}
 	va_end(args);

@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*ft_strchr( char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
-	if(!s)
-		return 0;
+	if (!s)
+		return (0);
 	while (*(unsigned char *)s && *(unsigned char *)s != (unsigned char)c)
 		s++;
 	if (*(unsigned char *)s == (unsigned char)c)

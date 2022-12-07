@@ -26,15 +26,15 @@ void	ft_dputnbr(int n, int *tracker, int fd)
 	if (nb < 0)
 	{
 		nb = nb * -1;
-		ft_dputchar('-', tracker,fd);
+		ft_dputchar('-', tracker, fd);
 	}
 	if (nb > 9)
 	{
-		ft_dputnbr(nb / 10, tracker,fd);
-		ft_dputnbr(nb % 10, tracker,fd);
+		ft_dputnbr(nb / 10, tracker, fd);
+		ft_dputnbr(nb % 10, tracker, fd);
 	}
 	else
-		ft_dputchar(nb + '0', tracker,fd);
+		ft_dputchar(nb + '0', tracker, fd);
 }
 
 void	ft_dputstr(char *s, int *tracker, int fd)
@@ -46,7 +46,7 @@ void	ft_dputstr(char *s, int *tracker, int fd)
 		s = "(null)";
 	while (s[i])
 	{
-		ft_dputchar(s[i], tracker,fd);
+		ft_dputchar(s[i], tracker, fd);
 		i++;
 	}
 }
@@ -55,11 +55,11 @@ void	ft_dput_unsigned_nbr(unsigned int nb, int *tracker, int fd)
 {
 	if (nb >= 10)
 	{
-		ft_dput_unsigned_nbr(nb / 10, tracker,fd);
-		ft_dput_unsigned_nbr(nb % 10, tracker,fd);
+		ft_dput_unsigned_nbr(nb / 10, tracker, fd);
+		ft_dput_unsigned_nbr(nb % 10, tracker, fd);
 	}
 	else
-		ft_dputchar(nb + '0', tracker,fd);
+		ft_dputchar(nb + '0', tracker, fd);
 }
 
 void	ft_dput_hex_nbr(unsigned int nb, char x, int *tracker, int fd)
@@ -72,9 +72,9 @@ void	ft_dput_hex_nbr(unsigned int nb, char x, int *tracker, int fd)
 		base = "0123456789ABCDEF";
 	if (nb >= 16)
 	{
-		ft_dput_hex_nbr(nb / 16, x, tracker,fd);
-		ft_dput_hex_nbr(nb % 16, x, tracker,fd);
+		ft_dput_hex_nbr(nb / 16, x, tracker, fd);
+		ft_dput_hex_nbr(nb % 16, x, tracker, fd);
 	}
 	else
-		ft_dputchar(base[nb % 16], tracker,fd);
+		ft_dputchar(base[nb % 16], tracker, fd);
 }

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "get_next_line.h"
+#include "libft.h"
 
 char	*ft_strjoin_gnl(char *s1, char *s2)
 {

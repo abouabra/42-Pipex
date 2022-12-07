@@ -11,35 +11,36 @@
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
-#define PIPEX_H
+# define PIPEX_H
 
-#include "libft/libft.h"
-#include <fcntl.h>
+# include "libft/libft.h"
+# include <fcntl.h>
 
-typedef struct s_vars{
-    char    **exec_param;
-    char    *command_path;
-    
-    int     **fd;
-    
-    int     ac;
-    char    **av;
-    char    **ev;
-    
-    int     is_herdoc;
-    char    *herdoc_limiter;
+typedef struct s_vars
+{
+	char	**exec_param;
+	char	*command_path;
 
-    int     while_command;
+	int		**fd;
 
-    int     command_index;
-    int     while_index;
+	int		ac;
+	char	**av;
+	char	**ev;
 
-    int     in_fd;
-    int     out_fd;
-    
-    int     alloc_fd_size;
-    
-    int     i;
-} t_vars;
+	int		is_herdoc;
+	char	*herdoc_limiter;
+
+	int		while_command;
+
+	int		command_index;
+	int		while_index;
+
+	int		in_fd;
+	int		out_fd;
+
+	int		alloc_fd_size;
+
+	int		i;
+}			t_vars;
 
 #endif
