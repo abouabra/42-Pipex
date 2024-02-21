@@ -1,7 +1,5 @@
 SRC = pipex.c
 
-OBJS=$(SRC:.c=.o)
-AR= ar -rcs
 NAME=pipex
 INCLUDE = -I. -I libft
 
@@ -11,29 +9,47 @@ BLUE = \033[1;34m
 YELLOW = \033[1;33m
 RESET = \033[0m
 
-all: $(NAME)
+all: ascii $(NAME)
 
-$(NAME): $(OBJS)
-	@make -C libft
+$(NAME): $(SRC)
+	@make -C libft > /dev/null
 	@$(CC) -Wall -Wextra -Werror $(INCLUDE) $^ libft/libft.a -o $@
-	@printf "$(RED)--------PIPEX DONE--------$(RESET)\n"
-
-bonus: fclean all
-
-%.o : %.c
-	@printf "hana kan compili f$(GREEN) $< $(RESET) \n"
-	@$(CC) -Wall -Wextra -Werror -c $<
-
-#bonus: fclean all
 
 clean:
-	@make -C libft clean
+	@make -C libft clean > /dev/null
 	@rm -rf *.o
 
 fclean:
-	@make -C libft fclean
+	@make -C libft fclean > /dev/null
 	@rm -rf *.o $(NAME)
 
 re:fclean all
 
+ascii:
+	@clear
+	@printf "$(GREEN)\n\
+																					 \n\
+PPPPPPPPPPPPPPPPP     iiii                                                           \n\
+P::::::::::::::::P   i::::i                                                          \n\
+P::::::PPPPPP:::::P   iiii                                                           \n\
+PP:::::P     P:::::P                                                                 \n\
+  P::::P     P:::::Piiiiiiippppp   ppppppppp       eeeeeeeeeeee  xxxxxxx      xxxxxxx\n\
+  P::::P     P:::::Pi:::::ip::::ppp:::::::::p    ee::::::::::::ee x:::::x    x:::::x \n\
+  P::::PPPPPP:::::P  i::::ip:::::::::::::::::p  e::::::eeeee:::::eex:::::x  x:::::x  \n\
+  P:::::::::::::PP   i::::ipp::::::ppppp::::::pe::::::e     e:::::e x:::::xx:::::x   \n\
+  P::::PPPPPPPPP     i::::i p:::::p     p:::::pe:::::::eeeee::::::e  x::::::::::x    \n\
+  P::::P             i::::i p:::::p     p:::::pe:::::::::::::::::e    x::::::::x     \n\
+  P::::P             i::::i p:::::p     p:::::pe::::::eeeeeeeeeee     x::::::::x     \n\
+  P::::P             i::::i p:::::p    p::::::pe:::::::e             x::::::::::x    \n\
+PP::::::PP          i::::::ip:::::ppppp:::::::pe::::::::e           x:::::xx:::::x   \n\
+P::::::::P          i::::::ip::::::::::::::::p  e::::::::eeeeeeee  x:::::x  x:::::x  \n\
+P::::::::P          i::::::ip::::::::::::::pp    ee:::::::::::::e x:::::x    x:::::x \n\
+PPPPPPPPPP          iiiiiiiip::::::pppppppp        eeeeeeeeeeeeeexxxxxxx      xxxxxxx\n\
+                            p:::::p                                                  \n\
+                            p:::::p                                                  \n\
+                           p:::::::p                        $(RED)by: abouabra $(GREEN)                         \n\
+                           p:::::::p                                                 \n\
+                           p:::::::p                                                 \n\
+                           ppppppppp                                                 \n\
+                                                                             $(RESET)\n"
 .PHONY: all clean fclean re

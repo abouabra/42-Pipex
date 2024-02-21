@@ -287,7 +287,10 @@ int	main(int ac, char **av, char **ev)
 	int		return_val;
 
 	if (ac <= 4)
+	{
+		ft_dprintf(1,"Usage: ./pipex InFile cmd1 cmd2 ... cmdN OutFile\n");
 		return (1);
+	}
 	vars = ft_calloc(1, sizeof(t_vars));
 	if (!vars)
 		return (1);
