@@ -2,7 +2,9 @@
 
 ## Description
 
-Pipex is a project that aims to create a program that simulates the behavior of the shell's pipe operator. The program takes a command line with the following structure:
+Pipex is a project that aims to create a program that simulates the behavior of the shell's pipe operator.
+it takes a file as input, and a series of commands to be executed, and an output file. The output of the first command is used as the input of the second command, and so on, until the last command, and the output of the last command is written to the output file.
+The program takes a command line with the following structure:
 ```bash
 ./pipex InFile "cmd1" "cmd2" ... "cmdN" OutFile
 ```
